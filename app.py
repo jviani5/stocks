@@ -58,7 +58,9 @@ def main():
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
-        get_data().append({"Ticker": selected_stock})
+        isGapper = st.button("It's A Gapper")
+        if isGapper:
+            get_data().append({"Ticker": selected_stock})
 
     # checkbox to display list of gappers
     viewData = st.sidebar.checkbox("View Gapper List")
