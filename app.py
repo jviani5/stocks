@@ -79,4 +79,7 @@ def main():
             # Reset the DataFrame to an empty state
             df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
-            # Print a
+
+
+if __name__ == "__main__":
+    main()
