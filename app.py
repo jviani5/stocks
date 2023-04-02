@@ -24,7 +24,8 @@ def main():
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
     # calculate the date two years ago from today
-    five_years_ago = (datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d')
+    five_years_ago = (datetime.now() - timedelta(days=5*365)
+                      ).strftime('%Y-%m-%d')
     # get historical data for searched ticker starting two years ago from today
     stock_df = stock_data.history(period='1d', start=five_years_ago, end=None)
     # print line chart with daily closing prices for searched ticker
@@ -62,16 +63,15 @@ def main():
         st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
         stock_data_df = stock_data.history(period='1d', interval='1m')
         fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
-                                            open=stock_data_df['Open'],
-                                            high=stock_data_df['High'],
-                                            low=stock_data_df['Low'],
-                                            close=stock_data_df['Close'])])
+                                             open=stock_data_df['Open'],
+                                             high=stock_data_df['High'],
+                                             low=stock_data_df['Low'],
+                                             close=stock_data_df['Close'])])
         st.plotly_chart(fig)
-
 
     # checkbox to declare the stock is a daily gapper and to collect data
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
-    if gapper:   
+    if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         if isGapper:
@@ -95,14 +95,13 @@ def main():
             # Print the updated DataFrame
             st.write(df)
 
-            # Save the gapper to a text file
-            with open("gappers.txt", "a") as f:
-                f.write(selected_stock + ": $" + str(current_price) + ", 5yr %: " + str(pct_change) + "\n")
-
         empty_dataframe = st.button("Empty DataFrame")
         if empty_dataframe:
             # Reset the DataFrame to an empty state
             df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
+
+            with open("gappers.txt", "w") as f:
+                f.write(df.to_string(index=False))
 
 
 if __name__ == "__main__":
