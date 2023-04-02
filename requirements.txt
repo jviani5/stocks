@@ -3,3 +3,4 @@ yfinance
 datetime
 pandas
 plotly
+requests

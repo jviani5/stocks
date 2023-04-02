@@ -4,6 +4,7 @@ import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
 import plotly.graph_objects as go
+import requests
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
@@ -102,6 +103,17 @@ def main():
 
             with open("gappers.txt", "w") as f:
                 f.write(df.to_string(index=False))
+
+    barchart = st.sidebar.checkbox("Barchart")
+    if barchart:
+        url = 'https://www.barchart.com/stocks/pre-market-trading/percent-change/advances?orderBy=preMarketPercentChange&orderDir=desc'
+        response = requests.get(url)
+
+        # parse HTML table data using pandas
+        tables = pd.read_html(response.text)
+        table_df = tables[0]
+
+        st.table(table_df)
 
 
 if __name__ == "__main__":
