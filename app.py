@@ -16,6 +16,8 @@ if button_clicked == "GO":
 df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
 # main function
+
+
 def main():
     global df
     st.subheader("""Daily **closing price** for """ + selected_stock)
@@ -62,17 +64,25 @@ def main():
             current_price = stock_info.info['regularMarketPrice']
 
             # Get the price from 5 years ago
-            five_yr_ago = (datetime.now() - pd.DateOffset(years=5)).strftime('%Y-%m-%d')
+            five_yr_ago = (datetime.now() - pd.DateOffset(years=5)
+                           ).strftime('%Y-%m-%d')
             hist = stock_info.history(start=five_yr_ago)
 
             # Calculate the percent change over the past 5 years
-            pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
+            pct_change = (current_price -
+                          hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
 
             # Add a new row to the DataFrame with the selected stock ticker, price, and percent change over 5 years
-            df = df.append({"ticker": selected_stock, "price": current_price, "5yr %": pct_change}, ignore_index=True)
+            df = df.append({"ticker": selected_stock, "price": current_price,
+                           "5yr %": pct_change}, ignore_index=True)
 
             # Print the updated DataFrame
             st.write(df)
+
+        empty_dataframe = st.button("Empty DataFrame")
+        if empty_dataframe:
+            # Reset the DataFrame to an empty state
+            df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
 
 if __name__ == "__main__":
