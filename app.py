@@ -50,23 +50,17 @@ def main():
             st.write(display_shareholders)
 
     # checkbox to declare the stock is a daily gapper and to collect data
+    df = pd.DataFrame(columns=["ticker", "price"])
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         df = pd.DataFrame(columns=['Ticker'])
         if isGapper:
-            df.append({'Ticker': selected_stock}, ignore_index = True)
-            st.write(df)
-
-    # checkbox to display list of gappers
-    viewData = st.sidebar.checkbox("View Gapper List")
-    if viewData:
-        st.subheader("List of Gappers")
-        st.write(df)
+            df = df.append({"ticker": selected_stock, "price": last_price}, ignore_index=True)
         empty_dataframe = st.button("Empty Datafame")
         if empty_dataframe:
-            df.iloc[0:0]
+            df = pd.DataFrame(columns=["ticker", "price"])
 
 
 if __name__ == "__main__":
