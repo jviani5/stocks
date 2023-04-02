@@ -55,9 +55,9 @@ def main():
         else:
             st.write(display_shareholders)
 
-    # checkbox to declare the stock is a daily gapper and to collect data
-    gapper = st.sidebar.checkbox("Penny Stock Gapper")
-    if gapper:
+    # checkbox to determine if the user wants an intraday graph printed
+    intraday = st.sidebar.checkbox("Intraday Graph")
+    if intraday:
         # create a candlestick chart of the selected stock for the past 3 days with 1 minute intervals
         st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
         stock_data_df = stock_data.history(period='3d', interval='1m')
@@ -67,6 +67,11 @@ def main():
                                             low=stock_data_df['Low'],
                                             close=stock_data_df['Close'])])
         st.plotly_chart(fig)
+
+
+    # checkbox to declare the stock is a daily gapper and to collect data
+    gapper = st.sidebar.checkbox("Penny Stock Gapper")
+    if gapper:   
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         if isGapper:
