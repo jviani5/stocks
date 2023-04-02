@@ -56,7 +56,6 @@ def main():
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
-        df = pd.DataFrame(columns=['Ticker'])
         if isGapper:
             df = df.append({"ticker": selected_stock, "price": last_price}, ignore_index=True)
         empty_dataframe = st.button("Empty Datafame")
