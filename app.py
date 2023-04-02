@@ -68,10 +68,11 @@ def main():
     viewData = st.sidebar.checkbox("View Gapper List")
     if viewData:
         st.subheader("List of Gappers")
-        st.write(pd.DataFrame(get_data()))
+        gap_dataframe = pd.DataFrame(get_data())
+        st.write(gap_dataframe)
         empty_dataframe = st.button("Empty Datafame")
         if empty_dataframe:
-            get_data.iloc[0:0]
+            gap_dataframe.iloc[0:0]
 
 
 if __name__ == "__main__":
