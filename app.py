@@ -28,10 +28,7 @@ def main():
     # get current date closing price for searched ticker
     last_price = stock_data.info['regularMarketPrice']
     # if market is closed on current date print that there is no data available
-    if last_price.empty == True:
-        st.write("No data available at the moment")
-    else:
-        st.write(last_price)
+    st.write(last_price)
 
     # get daily volume for searched ticker
     st.subheader("""Daily **volume** for """ + selected_stock)
