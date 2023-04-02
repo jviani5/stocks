@@ -52,6 +52,16 @@ def main():
         else:
             st.write(display_shareholders)
 
+    # checkbox to declare the stock is a daily gapper and to collect data
+    gapper = st.sidebar.checkbox("Penny Stock Gapper")
+    if gapper:
+        st.subheader("""**Gap Information** for """ + selected_stock)
+        #display_shareholders = (stock_data.institutional_holders)
+        # if display_shareholders.empty == True:
+        #    st.write("No data available at the moment")
+        # else:
+        #    st.write(display_shareholders)
+
 
 if __name__ == "__main__":
     main()
