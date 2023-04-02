@@ -24,9 +24,9 @@ def main():
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
     # calculate the date two years ago from today
-    two_years_ago = (datetime.now() - timedelta(days=2*365)).strftime('%Y-%m-%d')
+    five_years_ago = (datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d')
     # get historical data for searched ticker starting two years ago from today
-    stock_df = stock_data.history(period='1d', start=two_years_ago, end=None)
+    stock_df = stock_data.history(period='1d', start=five_years_ago, end=None)
     # print line chart with daily closing prices for searched ticker
     st.line_chart(stock_df.Close)
 
