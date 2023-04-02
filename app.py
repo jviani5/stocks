@@ -2,6 +2,13 @@
 import streamlit as st
 import yfinance as yf
 from datetime import datetime
+import pandas as pd
+
+
+@st.cache(allow_output_mutation=True)
+def get_data():
+    return []
+
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
@@ -22,7 +29,7 @@ def main():
     # print line chart with daily closing prices for searched ticker
     st.line_chart(stock_df.Close)
 
-    #Printing the latest price
+    # Printing the latest price
     st.subheader("""Last **closing price** for """ + selected_stock)
     # get current date closing price for searched ticker
     last_price = stock_data.info['regularMarketPrice']
@@ -51,11 +58,20 @@ def main():
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
+        get_data().append({"Ticker": selected_stock})
         #display_shareholders = (stock_data.institutional_holders)
         # if display_shareholders.empty == True:
         #    st.write("No data available at the moment")
         # else:
         #    st.write(display_shareholders)
+
+    viewData = st.sidebar.checkbox("View Gapper List")
+    if viewData:
+        st.write(pd.DataFrame(get_data()))
+        st.write("Empty Dataframe")
+        empty_dataframe = st.button("Empty Datafame")
+        if empty_dataframe:
+            get_data.iloc[0:0]
 
 
 if __name__ == "__main__":
