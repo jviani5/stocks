@@ -8,6 +8,13 @@ import requests
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
+home = st.sidebar.subheader("""Home""")
+if home:
+    url = 'https://www.barchart.com/stocks/pre-market-trading/percent-change/advances?orderBy=preMarketPercentChange&orderDir=desc'
+    response = requests.get(url)
+    df_list = pd.read_html(response.text)
+    df = df_list[0]  # select the first table in the list
+    st.write(df)
 st.sidebar.subheader("""""")
 selected_stock = st.sidebar.text_input("Why", "AAPL")
 
@@ -15,8 +22,6 @@ selected_stock = st.sidebar.text_input("Why", "AAPL")
 df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
 # main function
-
-
 def main():
     global df
     # get data on searched ticker
@@ -105,13 +110,6 @@ def main():
                                              low=stock_data_df['Low'],
                                              close=stock_data_df['Close'])])
         st.plotly_chart(fig)
-    barchart = st.sidebar.checkbox("Barchart")
-    if barchart:
-        url = 'https://www.barchart.com/stocks/pre-market-trading/percent-change/advances?orderBy=preMarketPercentChange&orderDir=desc'
-        response = requests.get(url)
-        df_list = pd.read_html(response.text)
-        df = df_list[0]  # select the first table in the list
-        st.write(df)
 
 
 if __name__ == "__main__":
