@@ -59,12 +59,8 @@ def main():
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         get_data().append({"Ticker": selected_stock})
-        #display_shareholders = (stock_data.institutional_holders)
-        # if display_shareholders.empty == True:
-        #    st.write("No data available at the moment")
-        # else:
-        #    st.write(display_shareholders)
 
+    # checkbox to display list of gappers
     viewData = st.sidebar.checkbox("View Gapper List")
     if viewData:
         st.subheader("List of Gappers")
