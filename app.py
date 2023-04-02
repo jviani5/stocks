@@ -49,18 +49,36 @@ def main():
         else:
             st.write(display_shareholders)
 
-    # checkbox to declare the stock is a daily gapper and to collect data
+    # Initialize an empty DataFrame with columns "ticker" and "price"
     df = pd.DataFrame(columns=["ticker", "price"])
-    st.write(df)
+
+    # Get the selected stock ticker from user input
+    selected_stock = st.text_input("Enter the stock ticker")
+
+    # checkbox to declare the stock is a daily gapper and to collect data
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         if isGapper:
-            df = df.append({"ticker": selected_stock, "price": last_price}, ignore_index=True)
-        empty_dataframe = st.button("Empty Datafame")
+            # Get the current price of the selected stock using yfinance
+            stock_info = yf.Ticker(selected_stock)
+            current_price = stock_info.info['regularMarketPrice']
+
+            # Add a new row to the DataFrame with the selected stock ticker and price
+            df = df.append({"ticker": selected_stock, "price": current_price}, ignore_index=True)
+
+            # Print the updated DataFrame
+            st.write(df)
+
+        empty_dataframe = st.button("Empty DataFrame")
         if empty_dataframe:
+            # Reset the DataFrame to an empty state
             df = pd.DataFrame(columns=["ticker", "price"])
+
+            # Print a message to confirm that the DataFrame has been cleared
+            st.write("DataFrame has been cleared")
+
 
 
 if __name__ == "__main__":
