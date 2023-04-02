@@ -8,8 +8,8 @@ import requests
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
-st.sidebar.subheader("""Why""")
-selected_stock = st.sidebar.text_input("", "AAPL")
+st.sidebar.subheader("""""")
+selected_stock = st.sidebar.text_input("Why", "AAPL")
 
 # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
 df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
