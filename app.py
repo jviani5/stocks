@@ -14,7 +14,6 @@ if button_clicked == "GO":
 
 # main function
 
-
 def main():
     st.subheader("""Daily **closing price** for """ + selected_stock)
     # get data on searched ticker
@@ -51,9 +50,6 @@ def main():
 
     # Initialize an empty DataFrame with columns "ticker" and "price"
     df = pd.DataFrame(columns=["ticker", "price"])
-
-    # Get the selected stock ticker from user input
-    selected_stock = st.text_input("Enter the stock ticker")
 
     # checkbox to declare the stock is a daily gapper and to collect data
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
