@@ -3,7 +3,7 @@ import streamlit as st
 import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
-
+import plotly.graph_objects as go
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
@@ -58,6 +58,15 @@ def main():
     # checkbox to declare the stock is a daily gapper and to collect data
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
+        # create a candlestick chart of the selected stock for the past 3 days with 1 minute intervals
+        st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
+        stock_data_df = stock_data.history(period='3d', interval='1m')
+        fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
+                                            open=stock_data_df['Open'],
+                                            high=stock_data_df['High'],
+                                            low=stock_data_df['Low'],
+                                            close=stock_data_df['Close'])])
+        st.plotly_chart(fig)
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         if isGapper:
