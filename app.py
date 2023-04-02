@@ -5,11 +5,6 @@ from datetime import datetime
 import pandas as pd
 
 
-@st.cache(allow_output_mutation=True)
-def get_data():
-    return []
-
-
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
 selected_stock = st.sidebar.text_input("Enter a valid stock ticker...", "GOOG")
@@ -59,18 +54,18 @@ def main():
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
+        df = pd.DataFrame(columns="Ticker")
         if isGapper:
-            get_data().append({"Ticker": selected_stock})
+            df.append({'A': selected_stock}, ignore_index = True)
 
     # checkbox to display list of gappers
     viewData = st.sidebar.checkbox("View Gapper List")
     if viewData:
         st.subheader("List of Gappers")
-        gap_dataframe = pd.DataFrame(get_data())
-        st.write(gap_dataframe)
+        st.write(df)
         empty_dataframe = st.button("Empty Datafame")
         if empty_dataframe:
-            gap_dataframe.iloc[0:0]
+            df.iloc[0:0]
 
 
 if __name__ == "__main__":
