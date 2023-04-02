@@ -48,8 +48,8 @@ def main():
         else:
             st.write(display_shareholders)
 
-    # Initialize an empty DataFrame with columns "ticker" and "price"
-    df = pd.DataFrame(columns=["ticker", "price"])
+    # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
+    df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
     # checkbox to declare the stock is a daily gapper and to collect data
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
@@ -61,8 +61,15 @@ def main():
             stock_info = yf.Ticker(selected_stock)
             current_price = stock_info.info['regularMarketPrice']
 
-            # Add a new row to the DataFrame with the selected stock ticker and price
-            df = df.append({"ticker": selected_stock, "price": current_price}, ignore_index=True)
+            # Get the price from 5 years ago
+            five_yr_ago = (datetime.now() - pd.DateOffset(years=5)).strftime('%Y-%m-%d')
+            hist = stock_info.history(start=five_yr_ago)
+
+            # Calculate the percent change over the past 5 years
+            pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
+
+            # Add a new row to the DataFrame with the selected stock ticker, price, and percent change over 5 years
+            df = df.append({"ticker": selected_stock, "price": current_price, "5yr %": pct_change}, ignore_index=True)
 
             # Print the updated DataFrame
             st.write(df)
@@ -70,12 +77,6 @@ def main():
         empty_dataframe = st.button("Empty DataFrame")
         if empty_dataframe:
             # Reset the DataFrame to an empty state
-            df = pd.DataFrame(columns=["ticker", "price"])
+            df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
-            # Print a message to confirm that the DataFrame has been cleared
-            st.write("DataFrame has been cleared")
-
-
-
-if __name__ == "__main__":
-    main()
+            # Print a
