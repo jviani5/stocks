@@ -3,48 +3,21 @@ import streamlit as st
 import yfinance as yf
 from datetime import datetime
 import pandas as pd
-from streamlit.hashing import _CodeHasher
-import hashlib
-import base64
-
-# Define a function to generate a hash value for a given object
-
-
-def hash_obj(obj):
-    obj_str = str(obj).encode("utf-8")
-    sha_hash = hashlib.sha256(obj_str).digest()
-    return base64.urlsafe_b64encode(sha_hash).decode("utf-8")
-
-# Define a SessionState class to persist variables across Streamlit runs
-
-
-class SessionState:
-    def __init__(self, **kwargs):
-        self.hasher = _CodeHasher()
-        self.kwargs = kwargs
-        self.key = self.hash_args(kwargs)
-
-    def __getattr__(self, name):
-        return self.kwargs.get(name, None)
-
-    def __setattr__(self, name, value):
-        self.kwargs[name] = value
-
-    def hash_args(self, args):
-        h = self.hasher.hash(args)
-        return hash_obj(h)
 
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
 selected_stock = st.sidebar.text_input("Enter a valid stock ticker...", "GOOG")
 button_clicked = st.sidebar.button("GO")
+if button_clicked == "GO":
+    main()
 
-# Initialize the SessionState object
-state = SessionState(df=pd.DataFrame(columns=["ticker", "price", "5yr %"]))
-
+# Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
+df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
 # main function
+
+
 def main():
     global df
     st.subheader("""Daily **closing price** for """ + selected_stock)
@@ -103,13 +76,18 @@ def main():
             df = df.append({"ticker": selected_stock, "price": current_price,
                            "5yr %": pct_change}, ignore_index=True)
 
+            # Print the updated DataFrame
+            st.write(df)
+
+            # Save the gapper to a text file
+            with open("gappers.txt", "a") as f:
+                f.write(selected_stock + ": $" + str(current_price) +
+                        ", 5yr %: " + str(pct_change) + "\n")
+
         empty_dataframe = st.button("Empty DataFrame")
         if empty_dataframe:
             # Reset the DataFrame to an empty state
             df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
-
-    # Print the updated DataFrame
-    st.write(df)
 
 
 if __name__ == "__main__":
