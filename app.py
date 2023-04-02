@@ -8,7 +8,7 @@ import requests
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
-selected_stock = st.sidebar.text_input("Enter a valid stock ticker...", "GOOG")
+selected_stock = st.sidebar.text_input("If...", "Enter Ticker")
 
 # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
 df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
@@ -18,35 +18,31 @@ df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
 def main():
     global df
-    st.subheader("""Daily **closing price** for """ + selected_stock)
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
-    # calculate the date two years ago from today
-    five_years_ago = (datetime.now() - timedelta(days=5*365)
-                      ).strftime('%Y-%m-%d')
-    # get historical data for searched ticker starting two years ago from today
-    stock_df = stock_data.history(period='1d', start=five_years_ago, end=None)
-    # print line chart with daily closing prices for searched ticker
-    st.line_chart(stock_df.Close)
-
-    # Printing the latest price
-    st.subheader("""Last **closing price** for """ + selected_stock)
-    # get current date closing price for searched ticker
     last_price = stock_data.info['regularMarketPrice']
-    # if market is closed on current date print that there is no data available
-    st.write("The latest closing price is: ")
-    st.write(last_price)
-
-    # get daily volume for searched ticker
-    st.subheader("""Daily **volume** for """ + selected_stock)
-    st.line_chart(stock_df.Volume)
-
-    # additional information feature in sidebar
-    st.sidebar.subheader("""Display Additional Information""")
 
     # checkbox to display list of institutional shareholders for searched ticker
-    major_shareholders = st.sidebar.checkbox("Institutional Shareholders")
-    if major_shareholders:
+    long_term = st.sidebar.checkbox("...is a good buy")
+    if long_term:
+        st.subheader("""Daily **closing price** for """ + selected_stock)
+        # calculate the date two years ago from today
+        five_years_ago = (datetime.now() - timedelta(days=5*365)
+                        ).strftime('%Y-%m-%d')
+        # get historical data for searched ticker starting two years ago from today
+        stock_df = stock_data.history(period='1d', start=five_years_ago, end=None)
+        # print line chart with daily closing prices for searched ticker
+        st.line_chart(stock_df.Close)
+
+        # Printing the latest price
+        st.subheader("""Last **closing price** for """ + selected_stock)
+        # if market is closed on current date print that there is no data available
+        st.write("The latest closing price is: ")
+        st.write(last_price)
+
+        # get daily volume for searched ticker
+        st.subheader("""Daily **volume** for """ + selected_stock)
+        st.line_chart(stock_df.Volume)
         st.subheader("""**Institutional investors** for """ + selected_stock)
         display_shareholders = (stock_data.institutional_holders)
         if display_shareholders.empty == True:
@@ -54,9 +50,9 @@ def main():
         else:
             st.write(display_shareholders)
 
-    # checkbox to determine if the user wants an intraday graph printed
-    intraday = st.sidebar.checkbox("Intraday Graph")
-    if intraday:
+    # checkbox to declare the stock is a daily gapper and to collect data
+    gapper = st.sidebar.checkbox("Penny Stock Gapper")
+    if gapper:
         # create a candlestick chart of the selected stock for the past 3 days with 1 minute intervals
         st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
         stock_data_df = stock_data.history(period='1d', interval='1m')
@@ -66,10 +62,6 @@ def main():
                                              low=stock_data_df['Low'],
                                              close=stock_data_df['Close'])])
         st.plotly_chart(fig)
-
-    # checkbox to declare the stock is a daily gapper and to collect data
-    gapper = st.sidebar.checkbox("Penny Stock Gapper")
-    if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         if isGapper:
