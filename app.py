@@ -52,9 +52,9 @@ def main():
             st.write(display_shareholders)
 
     # checkbox to declare the stock is a daily gapper and to collect data
-    gapper = st.sidebar.checkbox("Penny Stock Gapper")
+    gapper = st.sidebar.checkbox("...is a gapper")
     if gapper:
-        # create a candlestick chart of the selected stock for the past 3 days with 1 minute intervals
+        # create a candlestick chart of the selected stock for the past 1 day with 1 minute intervals
         st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
         stock_data_df = stock_data.history(period='1d', interval='1m')
         fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
@@ -94,6 +94,17 @@ def main():
             with open("gappers.txt", "w") as f:
                 f.write(df.to_string(index=False))
 
+    good_trade = st.sidebar.checkbox("...is a good trade")
+    if good_trade:
+        # create a candlestick chart of the selected stock for the past 10 days with 15 minute intervals
+        st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
+        stock_data_df = stock_data.history(period='10d', interval='15m')
+        fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
+                                             open=stock_data_df['Open'],
+                                             high=stock_data_df['High'],
+                                             low=stock_data_df['Low'],
+                                             close=stock_data_df['Close'])])
+        st.plotly_chart(fig)
     barchart = st.sidebar.checkbox("Barchart")
     if barchart:
         url = 'https://www.barchart.com/stocks/pre-market-trading/percent-change/advances?orderBy=preMarketPercentChange&orderDir=desc'
