@@ -12,9 +12,12 @@ button_clicked = st.sidebar.button("GO")
 if button_clicked == "GO":
     main()
 
-# main function
+# Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
+df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
+# main function
 def main():
+    global df
     st.subheader("""Daily **closing price** for """ + selected_stock)
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
@@ -48,9 +51,6 @@ def main():
         else:
             st.write(display_shareholders)
 
-    # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
-    df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
-
     # checkbox to declare the stock is a daily gapper and to collect data
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
@@ -69,16 +69,7 @@ def main():
             pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
 
             # Add a new row to the DataFrame with the selected stock ticker, price, and percent change over 5 years
-            df = df.append({"ticker": selected_stock, "price": current_price, "5yr %": pct_change}, ignore_index=True)
-
-            # Print the updated DataFrame
-            st.write(df)
-
-        empty_dataframe = st.button("Empty DataFrame")
-        if empty_dataframe:
-            # Reset the DataFrame to an empty state
-            df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
-
+            df = df.append({"ticker": selected_stock, "price": current_price, "5yr %": pct_change},
 
 
 if __name__ == "__main__":
