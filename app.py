@@ -60,7 +60,7 @@ def main():
     if intraday:
         # create a candlestick chart of the selected stock for the past 3 days with 1 minute intervals
         st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
-        stock_data_df = stock_data.history(period='3d', interval='1m')
+        stock_data_df = stock_data.history(period='1d', interval='1m')
         fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
                                             open=stock_data_df['Open'],
                                             high=stock_data_df['High'],
