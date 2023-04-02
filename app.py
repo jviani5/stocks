@@ -51,6 +51,7 @@ def main():
 
     # checkbox to declare the stock is a daily gapper and to collect data
     df = pd.DataFrame(columns=["ticker", "price"])
+    st.write(df)
     gapper = st.sidebar.checkbox("Penny Stock Gapper")
     if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
