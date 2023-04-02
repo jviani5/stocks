@@ -69,7 +69,10 @@ def main():
             pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
 
             # Add a new row to the DataFrame with the selected stock ticker, price, and percent change over 5 years
-            df = df.append({"ticker": selected_stock, "price": current_price, "5yr %": pct_change},
+            df = df.append({"ticker": selected_stock, "price": current_price, "5yr %": pct_change}, ignore_index=True)
+
+            # Print the updated DataFrame
+            st.write(df)
 
 
 if __name__ == "__main__":
