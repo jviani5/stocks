@@ -57,6 +57,7 @@ def main():
         df = pd.DataFrame(columns=['Ticker'])
         if isGapper:
             df.append({'Ticker': selected_stock}, ignore_index = True)
+            st.write(df)
 
     # checkbox to display list of gappers
     viewData = st.sidebar.checkbox("View Gapper List")
