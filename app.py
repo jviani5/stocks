@@ -1,7 +1,7 @@
 # import required libraries
 import streamlit as st
 import yfinance as yf
-from datetime import datetime
+from datetime import datetime, timedelta
 import pandas as pd
 
 
@@ -23,8 +23,10 @@ def main():
     st.subheader("""Daily **closing price** for """ + selected_stock)
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
-    # get historical data for searched ticker
-    stock_df = stock_data.history(period='1d', start='2020-01-01', end=None)
+    # calculate the date two years ago from today
+    two_years_ago = (datetime.now() - timedelta(days=2*365)).strftime('%Y-%m-%d')
+    # get historical data for searched ticker starting two years ago from today
+    stock_df = stock_data.history(period='1d', start=two_years_ago, end=None)
     # print line chart with daily closing prices for searched ticker
     st.line_chart(stock_df.Close)
 
@@ -81,8 +83,7 @@ def main():
 
             # Save the gapper to a text file
             with open("gappers.txt", "a") as f:
-                f.write(selected_stock + ": $" + str(current_price) +
-                        ", 5yr %: " + str(pct_change) + "\n")
+                f.write(selected_stock + ": $" + str(current_price) + ", 5yr %: " + str(pct_change) + "\n")
 
         empty_dataframe = st.button("Empty DataFrame")
         if empty_dataframe:
