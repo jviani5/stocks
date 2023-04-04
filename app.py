@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
 st.sidebar.subheader("""""")
-home = st.sidebar.checkbox("Home")
+home = st.sidebar.button("Home")
 st.sidebar.subheader("""""")
 selected_stock = st.sidebar.text_input("Why", "AAPL")
 
