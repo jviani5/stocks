@@ -25,7 +25,9 @@ def main():
     last_price = stock_data.info['regularMarketPrice']
 
     if home:
-        long_term, gapper, good_trade = False
+        long_term = False
+        gapper = False
+        good_trade = False
         st.subheader("""Stocks That Gapped Up This Morning""")
         url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
 
