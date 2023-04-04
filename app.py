@@ -112,7 +112,7 @@ def main():
             # Print the updated DataFrame
             st.write(df)
 
-        empty_dataframe = st.button("Empty DataFrame")
+        empty_dataframe = st.button("Export to Sheets")
         if empty_dataframe:
             # Reset the DataFrame to an empty state
             df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
