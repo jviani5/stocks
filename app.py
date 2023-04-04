@@ -9,48 +9,67 @@ from bs4 import BeautifulSoup
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
-selected_stock = st.sidebar.text_input("Enter a valid stock ticker...", "GOOG")
-button_clicked = st.sidebar.button("GO")
-if button_clicked == "GO":
-    main()
+st.sidebar.subheader("""""")
+selected_stock = st.sidebar.text_input("Why", "AAPL")
 
 # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
 df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
 
 # main function
-
-
 def main():
     global df
-    st.subheader("""Daily **closing price** for """ + selected_stock)
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
-    # calculate the date two years ago from today
-    five_years_ago = (datetime.now() - timedelta(days=5*365)
-                      ).strftime('%Y-%m-%d')
-    # get historical data for searched ticker starting two years ago from today
-    stock_df = stock_data.history(period='1d', start=five_years_ago, end=None)
-    # print line chart with daily closing prices for searched ticker
-    st.line_chart(stock_df.Close)
-
-    # Printing the latest price
-    st.subheader("""Last **closing price** for """ + selected_stock)
-    # get current date closing price for searched ticker
     last_price = stock_data.info['regularMarketPrice']
-    # if market is closed on current date print that there is no data available
-    st.write("The latest closing price is: ")
-    st.write(last_price)
 
-    # get daily volume for searched ticker
-    st.subheader("""Daily **volume** for """ + selected_stock)
-    st.line_chart(stock_df.Volume)
+    # checkbox to display main page
+    home = st.sidebar.checkbox("Home")
+    if home:
+        url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
 
-    # additional information feature in sidebar
-    st.sidebar.subheader("""Display Additional Information""")
+        result = requests.get(url)
+        doc = BeautifulSoup(result.text, "html.parser")
+        table = doc.find("table")
+        trs = table.find_all("tr")
+        rows = []
+
+
+        def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
+                return [td.get_text(strip=True) for td in tr.find_all(coltag)]
+
+        headerow = rowgetDataText(trs[0], 'th')
+        if headerow: # if there is a header row include first
+            rows.append(headerow)
+            trs = trs[1:]
+        for tr in trs: # for every table row
+            rows.append(rowgetDataText(tr, 'td') ) # data row       
+        print(rows)
+
+        dftable = pd.DataFrame(rows[1:], columns=rows[0])
+        dftable.head(4)
+        st.dataframe(dftable)
 
     # checkbox to display list of institutional shareholders for searched ticker
-    major_shareholders = st.sidebar.checkbox("Institutional Shareholders")
-    if major_shareholders:
+    long_term = st.sidebar.checkbox("...is a good buy")
+    if long_term:
+        st.subheader("""Daily **closing price** for """ + selected_stock)
+        # calculate the date two years ago from today
+        five_years_ago = (datetime.now() - timedelta(days=5*365)
+                        ).strftime('%Y-%m-%d')
+        # get historical data for searched ticker starting two years ago from today
+        stock_df = stock_data.history(period='1d', start=five_years_ago, end=None)
+        # print line chart with daily closing prices for searched ticker
+        st.line_chart(stock_df.Close)
+
+        # Printing the latest price
+        st.subheader("""Last **closing price** for """ + selected_stock)
+        # if market is closed on current date print that there is no data available
+        st.write("The latest closing price is: ")
+        st.write(last_price)
+
+        # get daily volume for searched ticker
+        st.subheader("""Daily **volume** for """ + selected_stock)
+        st.line_chart(stock_df.Volume)
         st.subheader("""**Institutional investors** for """ + selected_stock)
         display_shareholders = (stock_data.institutional_holders)
         if display_shareholders.empty == True:
@@ -58,10 +77,10 @@ def main():
         else:
             st.write(display_shareholders)
 
-    # checkbox to determine if the user wants an intraday graph printed
-    intraday = st.sidebar.checkbox("Intraday Graph")
-    if intraday:
-        # create a candlestick chart of the selected stock for the past 3 days with 1 minute intervals
+    # checkbox to declare the stock is a daily gapper and to collect data
+    gapper = st.sidebar.checkbox("...is a gapper")
+    if gapper:
+        # create a candlestick chart of the selected stock for the past 1 day with 1 minute intervals
         st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
         stock_data_df = stock_data.history(period='1d', interval='1m')
         fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
@@ -70,10 +89,6 @@ def main():
                                              low=stock_data_df['Low'],
                                              close=stock_data_df['Close'])])
         st.plotly_chart(fig)
-
-    # checkbox to declare the stock is a daily gapper and to collect data
-    gapper = st.sidebar.checkbox("Penny Stock Gapper")
-    if gapper:
         st.subheader("""**Gap Information** for """ + selected_stock)
         isGapper = st.button(selected_stock + " is a gapper")
         if isGapper:
@@ -105,31 +120,18 @@ def main():
             with open("gappers.txt", "w") as f:
                 f.write(df.to_string(index=False))
 
-    barchart = st.sidebar.checkbox("Barchart")
-    if barchart:
-        url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
-
-        result = requests.get(url)
-        doc = BeautifulSoup(result.text, "html.parser")
-        table = doc.find("table")
-        trs = table.find_all("tr")
-        rows = []
-
-
-        def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
-                return [td.get_text(strip=True) for td in tr.find_all(coltag)]
-
-        headerow = rowgetDataText(trs[0], 'th')
-        if headerow: # if there is a header row include first
-            rows.append(headerow)
-            trs = trs[1:]
-        for tr in trs: # for every table row
-            rows.append(rowgetDataText(tr, 'td') ) # data row       
-        print(rows)
-
-        dftable = pd.DataFrame(rows[1:], columns=rows[0])
-        dftable.head(4)
-        st.dataframe(dftable)
+    #checkbox to say the ticker is a good options swing trade
+    good_trade = st.sidebar.checkbox("...is a good trade")
+    if good_trade:
+        # create a candlestick chart of the selected stock for the past 10 days with 15 minute intervals
+        st.subheader(f"""**Candlestick Chart** for {selected_stock}""")
+        stock_data_df = stock_data.history(period='10d', interval='15m')
+        fig = go.Figure(data=[go.Candlestick(x=stock_data_df.index,
+                                             open=stock_data_df['Open'],
+                                             high=stock_data_df['High'],
+                                             low=stock_data_df['Low'],
+                                             close=stock_data_df['Close'])])
+        st.plotly_chart(fig)
 
 
 if __name__ == "__main__":
