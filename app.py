@@ -25,6 +25,8 @@ def main():
     # checkbox to display main page
     home = st.sidebar.checkbox("Home")
     if home:
+
+        st.subheader("""Stocks That Gapped Up This Morning""")
         url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
 
         result = requests.get(url)
