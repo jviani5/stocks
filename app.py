@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import plotly.graph_objects as go
 import requests
+from bs4 import BeautifulSoup
 
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
@@ -106,11 +107,29 @@ def main():
 
     barchart = st.sidebar.checkbox("Barchart")
     if barchart:
-        url = 'https://www.barchart.com/stocks/pre-market-trading/percent-change/advances?orderBy=preMarketPercentChange&orderDir=desc'
-        response = requests.get(url)
-        df_list = pd.read_html(response.text)
-        df = df_list[0]  # select the first table in the list
-        st.write(df)
+        url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
+
+        result = requests.get(url)
+        doc = BeautifulSoup(result.text, "html.parser")
+        table = doc.find("table")
+        trs = table.find_all("tr")
+        rows = []
+
+
+        def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
+                return [td.get_text(strip=True) for td in tr.find_all(coltag)]
+
+        headerow = rowgetDataText(trs[0], 'th')
+        if headerow: # if there is a header row include first
+            rows.append(headerow)
+            trs = trs[1:]
+        for tr in trs: # for every table row
+            rows.append(rowgetDataText(tr, 'td') ) # data row       
+        print(rows)
+
+        dftable = pd.DataFrame(rows[1:], columns=rows[0])
+        dftable.head(4)
+        st.dataframe(dftable)
 
 
 if __name__ == "__main__":
