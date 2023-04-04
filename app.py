@@ -16,7 +16,6 @@ selected_stock = st.sidebar.text_input("Why", "AAPL")
 
 # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
 df = pd.DataFrame(columns=["ticker", "price", "5yr %"])
-home = True
 # main function
 def main():
     global df
@@ -25,9 +24,6 @@ def main():
     last_price = stock_data.info['regularMarketPrice']
 
     if home:
-        long_term = False
-        gapper = False
-        good_trade = False
         st.subheader("""Stocks That Gapped Up This Morning""")
         url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
 
