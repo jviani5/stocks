@@ -10,6 +10,8 @@ from bs4 import BeautifulSoup
 # ticker search feature in sidebar
 st.sidebar.subheader("""Stock Search Web App""")
 st.sidebar.subheader("""""")
+home = st.sidebar.checkbox("Home")
+st.sidebar.subheader("""""")
 selected_stock = st.sidebar.text_input("Why", "AAPL")
 
 # Initialize an empty DataFrame with columns "ticker", "price", and "5yr %"
@@ -22,10 +24,7 @@ def main():
     stock_data = yf.Ticker(selected_stock)
     last_price = stock_data.info['regularMarketPrice']
 
-    # checkbox to display main page
-    home = st.sidebar.checkbox("Home")
     if home:
-
         st.subheader("""Stocks That Gapped Up This Morning""")
         url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
 
