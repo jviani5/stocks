@@ -53,7 +53,7 @@ def main():
                                              high=gapTickData['High'],
                                              low=gapTickData['Low'],
                                              close=gapTickData['Close'])])
-        gapTickLongTerm = gapTick.history(period='1d', start=five_years_ago, end=None)
+        gapTickLongTerm = gapTickYF.history(period='1d', start=five_years_ago, end=None)
         st.line_chart(gapTickLongTerm.Close)
 
 
