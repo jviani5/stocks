@@ -26,17 +26,13 @@ def main():
     if home:
         st.subheader("""Stocks That Gapped Up This Morning""")
         url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
-
         result = requests.get(url)
         doc = BeautifulSoup(result.text, "html.parser")
         table = doc.find("table")
         trs = table.find_all("tr")
         rows = []
-
-
         def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
                 return [td.get_text(strip=True) for td in tr.find_all(coltag)]
-
         headerow = rowgetDataText(trs[0], 'th')
         if headerow: # if there is a header row include first
             rows.append(headerow)
@@ -48,6 +44,8 @@ def main():
         dftable = pd.DataFrame(rows[1:], columns=rows[0])
         dftable.head(4)
         st.dataframe(dftable)
+        st.subheader("Analysis")
+        gapTick = st.text_input("Enter Ticker", "AAPL")
 
     # checkbox to display list of institutional shareholders for searched ticker
     long_term = st.sidebar.checkbox("...is a good buy")
