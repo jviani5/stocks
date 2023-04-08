@@ -46,6 +46,16 @@ def main():
         st.dataframe(dftable)
         st.subheader("Analysis")
         gapTick = st.text_input("Enter Ticker", "AAPL")
+        gapTickYF = yf.Ticker(gapTick)
+        gapTickData = gapTick.history(period='2d', interval='1m')
+        fig = go.Figure(data=[go.Candlestick(x=gapTickData.index,
+                                             open=gapTickData['Open'],
+                                             high=gapTickData['High'],
+                                             low=gapTickData['Low'],
+                                             close=gapTickData['Close'])])
+        gapTickLongTerm = gapTick.history(period='1d', start=five_years_ago, end=None)
+        st.line_chart(gapTickLongTerm.Close)
+
 
     # checkbox to display list of institutional shareholders for searched ticker
     long_term = st.sidebar.checkbox("...is a good buy")
