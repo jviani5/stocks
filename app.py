@@ -47,7 +47,7 @@ def main():
         st.subheader("Analysis")
         gapTick = st.text_input("Enter Ticker", "AAPL")
         gapTickYF = yf.Ticker(gapTick)
-        gapTickData = gapTick.history(period='2d', interval='1m')
+        gapTickData = gapTickYF.history(period='2d', interval='1m')
         fig = go.Figure(data=[go.Candlestick(x=gapTickData.index,
                                              open=gapTickData['Open'],
                                              high=gapTickData['High'],
