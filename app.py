@@ -73,6 +73,12 @@ def main():
     hist = gapTickYF.history(start=five_years_ago)
     st.write("Change from Fifty-Two Week High")
     st.write(gapTickYF.info['fiftyTwoWeekHighChange'])
+    #webull hard to borrow fee cost
+    st.subheader("Trading on Webull")
+    with st.form(key='my_form'):
+        htbRate = st.text_input(label='Enter Hard to Borrow Rate')
+        amtSpent = st.text_input(label='Enter Amount Spent')
+        submit_button = st.form_submit_button(label='Submit')
 
 
     # checkbox to display list of institutional shareholders for searched ticker
