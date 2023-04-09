@@ -76,7 +76,7 @@ def main():
     #webull hard to borrow fee cost
     st.subheader("Trading on Webull")
     htbRate = st.text_input(label='Enter Hard to Borrow Rate')
-    print(htbRate)
+    st.write(htbRate)
 
 
     # checkbox to display list of institutional shareholders for searched ticker
