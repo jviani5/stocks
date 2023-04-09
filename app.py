@@ -67,12 +67,9 @@ def main():
     st.line_chart(gapTickLongTerm.Close)
     st.subheader("Data")
     gapTickPrice = gapTickYF.info['regularMarketPrice']
-    st.write("Price: $", gapTickPrice)
-    st.write("Avg Volume 10 Day:")
-    st.write(gapTickYF.info['averageDailyVolume10Day'])
-    hist = gapTickYF.history(start=five_years_ago)
-    st.write("Change from Fifty-Two Week High")
-    st.write(gapTickYF.info['fiftyTwoWeekHighChange'])
+    st.write("Price:   $", gapTickPrice)
+    st.write("Avg Volume 10 Day:   ", gapTickYF.info['averageDailyVolume10Day'])
+    st.write("Change from Fifty-Two Week High:   ", gapTickYF.info['fiftyTwoWeekHighChange'])
     #webull hard to borrow fee cost
     st.subheader("Trading on Webull")
     htbRate = st.number_input(label='Enter Hard to Borrow Rate')
