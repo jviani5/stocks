@@ -66,11 +66,10 @@ def main():
     gapTickLongTerm = gapTickYF.history(period='1d', start=five_years_ago, end=None)
     st.line_chart(gapTickLongTerm.Close)
     st.subheader("Data")
-    gapPrice = gapTickYF.info['regularMarketPrice']
     st.write("Price:")
-    st.write(gapPrice)
-    st.write("Info:")
-    st.write(gapTickYF.info)
+    st.write(gapTickYF.info['regularMarketPrice'])
+    st.write("Avg Volume 10 Day:")
+    st.write(gapTickYF.info['averageDailyVolume10Day'])
     pct_change = (gapPrice - gapTickLongTerm.iloc[0]['Close']) / gapTickLongTerm.iloc[0]['Close'] * 100
     st.write("5 Year % Change:")
     st.write(pct_change)
