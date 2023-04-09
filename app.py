@@ -75,7 +75,7 @@ def main():
     st.write(gapTickYF.info['fiftyTwoWeekHighChange'])
     #webull hard to borrow fee cost
     st.subheader("Trading on Webull")
-    htbRate = st.text_unpt(label='Enter Hard to Borrow Rate')
+    htbRate = st.text_input(label='Enter Hard to Borrow Rate')
     print(htbRate)
 
 
