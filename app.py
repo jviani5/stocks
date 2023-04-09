@@ -77,7 +77,7 @@ def main():
     amtSpent = st.number_input(label='Enter Amount Spent')
     shares = round(amtSpent/gapTickPrice)
     roundedPrice = round(gapTickPrice*1.02)
-    htbFee = (roundedPrice/360)
+    htbFee = (roundedPrice * shares)
     st.write("The Fee: ", htbFee)
 
     # checkbox to display list of institutional shareholders for searched ticker
