@@ -72,7 +72,7 @@ def main():
     st.write("Avg Volume: $" + gapAvgVol)
     hist = gapTickYF.history(start=five_yr_ago)
     pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
-
+    st.write("5 Year % Change: " + pct_change)
 
 
     # checkbox to display list of institutional shareholders for searched ticker
