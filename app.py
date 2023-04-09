@@ -71,7 +71,6 @@ def main():
     st.write("Avg Volume 10 Day:")
     st.write(gapTickYF.info['averageDailyVolume10Day'])
     hist = gapTickYF.history(start=five_years_ago)
-    st.write(pct_change)
     st.write(gapTickYF.info)
 
 
