@@ -71,8 +71,7 @@ def main():
     st.write(gapPrice)
     st.write("Info:")
     st.write(gapTickYF.info)
-    hist = gapTickYF.history(start=five_yr_ago)
-    pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
+    pct_change = (current_price - gapTickLongTerm.iloc[0]['Close']) / gapTickLongTerm.iloc[0]['Close'] * 100
     st.write("5 Year % Change: " + pct_change)
 
 
