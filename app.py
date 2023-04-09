@@ -70,7 +70,7 @@ def main():
     st.write(gapTickYF.info['regularMarketPrice'])
     st.write("Avg Volume 10 Day:")
     st.write(gapTickYF.info['averageDailyVolume10Day'])
-    hist = gapTickYF.history(start=five_yr_ago)
+    hist = gapTickYF.history(start=five_years_ago)
     pct_change = (gapPrice - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
     st.write("5 Year % Change:")
     st.write(pct_change)
