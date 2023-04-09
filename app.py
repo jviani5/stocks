@@ -51,7 +51,7 @@ def main():
         with st.form(key='my_form'):
 	        text_input = st.text_input(label='Enter Ticker')
 	        submit_button = st.form_submit_button(label='Submit')
-        gapTickYF = yf.Ticker(gapTick)
+        gapTickYF = yf.Ticker(text_input)
         #2 day chart
         gapTickData = gapTickYF.history(period='2d', interval='1m')
         fig = go.Figure(data=[go.Candlestick(x=gapTickData.index,
