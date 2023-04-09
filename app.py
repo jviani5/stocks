@@ -25,43 +25,43 @@ def main():
     five_years_ago = (datetime.now() - timedelta(days=5*365)
                         ).strftime('%Y-%m-%d')
 
-    if home:
-        st.subheader("""Stocks That Gapped Up This Morning""")
-        #get data of gappers from tradingview
-        url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
-        result = requests.get(url)
-        doc = BeautifulSoup(result.text, "html.parser")
-        table = doc.find("table")
-        trs = table.find_all("tr")
-        rows = []
-        def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
-                return [td.get_text(strip=True) for td in tr.find_all(coltag)]
-        headerow = rowgetDataText(trs[0], 'th')
-        if headerow: # if there is a header row include first
-            rows.append(headerow)
-            trs = trs[1:]
-        for tr in trs: # for every table row
-            rows.append(rowgetDataText(tr, 'td') ) # data row     
-        #create dataframe to print on streamlit  
-        dftable = pd.DataFrame(rows[1:], columns=rows[0])
-        dftable.head(4)
-        st.dataframe(dftable)
-        #analysis on gapper
-        st.subheader("Analysis")
-        with st.form(key='my_form'):
-	        text_input = st.text_input(label='Enter Ticker')
-	        submit_button = st.form_submit_button(label='Submit')
-        gapTickYF = yf.Ticker(text_input)
-        #2 day chart
-        gapTickData = gapTickYF.history(period='2d', interval='1m')
-        fig = go.Figure(data=[go.Candlestick(x=gapTickData.index,
-                                             open=gapTickData['Open'],
-                                             high=gapTickData['High'],
-                                             low=gapTickData['Low'],
-                                             close=gapTickData['Close'])])
-        #5 year daily chart
-        gapTickLongTerm = gapTickYF.history(period='1d', start=five_years_ago, end=None)
-        st.line_chart(gapTickLongTerm.Close)
+    
+    st.subheader("""Stocks That Gapped Up This Morning""")
+    #get data of gappers from tradingview
+    url = "https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/"
+    result = requests.get(url)
+    doc = BeautifulSoup(result.text, "html.parser")
+    table = doc.find("table")
+    trs = table.find_all("tr")
+    rows = []
+    def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
+            return [td.get_text(strip=True) for td in tr.find_all(coltag)]
+    headerow = rowgetDataText(trs[0], 'th')
+    if headerow: # if there is a header row include first
+        rows.append(headerow)
+        trs = trs[1:]
+    for tr in trs: # for every table row
+        rows.append(rowgetDataText(tr, 'td') ) # data row     
+    #create dataframe to print on streamlit  
+    dftable = pd.DataFrame(rows[1:], columns=rows[0])
+    dftable.head(4)
+    st.dataframe(dftable)
+    #analysis on gapper
+    st.subheader("Analysis")
+    with st.form(key='my_form'):
+        text_input = st.text_input(label='Enter Ticker')
+        submit_button = st.form_submit_button(label='Submit')
+    gapTickYF = yf.Ticker(text_input)
+    #2 day chart
+    gapTickData = gapTickYF.history(period='2d', interval='1m')
+    fig = go.Figure(data=[go.Candlestick(x=gapTickData.index,
+                                            open=gapTickData['Open'],
+                                            high=gapTickData['High'],
+                                            low=gapTickData['Low'],
+                                            close=gapTickData['Close'])])
+    #5 year daily chart
+    gapTickLongTerm = gapTickYF.history(period='1d', start=five_years_ago, end=None)
+    st.line_chart(gapTickLongTerm.Close)
 
 
 
