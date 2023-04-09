@@ -53,13 +53,16 @@ def main():
         submit_button = st.form_submit_button(label='Submit')
     gapTickYF = yf.Ticker(text_input)
     #2 day chart
+    st.subheader ("2 day, 1 minute chart")
     gapTickData = gapTickYF.history(period='2d', interval='1m')
-    fig = go.Figure(data=[go.Candlestick(x=gapTickData.index,
+    fig1 = go.Figure(data=[go.Candlestick(x=gapTickData.index,
                                             open=gapTickData['Open'],
                                             high=gapTickData['High'],
                                             low=gapTickData['Low'],
                                             close=gapTickData['Close'])])
+    st.plotly_chart(fig1)
     #5 year daily chart
+    st.subheader("5 year, 1 day chart")
     gapTickLongTerm = gapTickYF.history(period='1d', start=five_years_ago, end=None)
     st.line_chart(gapTickLongTerm.Close)
 
