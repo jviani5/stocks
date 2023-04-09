@@ -66,10 +66,8 @@ def main():
     gapTickLongTerm = gapTickYF.history(period='1d', start=five_years_ago, end=None)
     st.line_chart(gapTickLongTerm.Close)
     st.subheader("Data")
-    gapPrice = gapTickData.info['regularMarketPrice']
-    gapAvgVol = gapTickData.info['Avg. Volume']
-    st.write("Price: $" + gapPrice)
-    st.write("Avg Volume: $" + gapAvgVol)
+    st.write("Price: $" + gapTickYF.info['regularMarketPrice'])
+    st.write("Avg Volume: $" + gapTickYF.info['Avg. Volume'])
 
 
 
