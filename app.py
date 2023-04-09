@@ -71,7 +71,8 @@ def main():
     st.write("Avg Volume 10 Day:")
     st.write(gapTickYF.info['averageDailyVolume10Day'])
     hist = gapTickYF.history(start=five_years_ago)
-    st.write(gapTickYF.info)
+    st.write("Change from Fifty-Two Week High")
+    st.write(gapTickYF.info['fiftyTwoWeekHighChange'])
 
 
     # checkbox to display list of institutional shareholders for searched ticker
