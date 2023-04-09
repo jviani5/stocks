@@ -73,11 +73,11 @@ def main():
     #webull hard to borrow fee cost
     st.subheader("Trading on Webull")
     htbRate = st.number_input(label='Enter Hard to Borrow Rate')
-    hbtPercent = htbRate / 100
+    htbPercent = htbRate / 100
     amtSpent = st.number_input(label='Enter Amount Spent')
     shares = round(amtSpent/gapTickPrice)
     roundedPrice = round(gapTickPrice*1.02)
-    htbFee = (roundedPrice * shares)
+    htbFee = (roundedPrice * shares * htbPercent) / 360
     st.write("The Fee: ", htbFee)
 
     # checkbox to display list of institutional shareholders for searched ticker
