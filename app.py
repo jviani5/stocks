@@ -22,6 +22,8 @@ def main():
     # get data on searched ticker
     stock_data = yf.Ticker(selected_stock)
     last_price = stock_data.info['regularMarketPrice']
+    five_years_ago = (datetime.now() - timedelta(days=5*365)
+                        ).strftime('%Y-%m-%d')
 
     if home:
         st.subheader("""Stocks That Gapped Up This Morning""")
