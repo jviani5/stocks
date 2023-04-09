@@ -77,6 +77,8 @@ def main():
     st.subheader("Trading on Webull")
     with st.form(key='my_form'):
         htbRate = st.text_input(label='Enter Hard to Borrow Rate')
+        submit_button = st.form_submit_button(label='Submit')
+    with st.form(key='my_form'):
         amtSpent = st.text_input(label='Enter Amount Spent')
         submit_button = st.form_submit_button(label='Submit')
 
