@@ -67,7 +67,7 @@ def main():
     st.line_chart(gapTickLongTerm.Close)
     st.subheader("Data")
     st.write("Price: $" + gapTickData.info['regularMarketPrice'])
-     st.write("Avg Volume: $" + gapTickData.info['Avg. Volume'])
+    st.write("Avg Volume: $" + gapTickData.info['Avg. Volume'])
 
 
 
