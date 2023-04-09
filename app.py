@@ -67,8 +67,10 @@ def main():
     st.line_chart(gapTickLongTerm.Close)
     st.subheader("Data")
     gapPrice = gapTickYF.info['regularMarketPrice']
-    st.write("Price: $" + gapPrice)
-    st.write("Info: " + gapTickYF.info)
+    st.write("Price:")
+    st.write(gapPrice)
+    st.write("Info:")
+    st.write(gapTickYF.info)
     hist = gapTickYF.history(start=five_yr_ago)
     pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
     st.write("5 Year % Change: " + pct_change)
