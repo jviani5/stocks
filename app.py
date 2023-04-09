@@ -67,7 +67,8 @@ def main():
     st.line_chart(gapTickLongTerm.Close)
     st.subheader("Data")
     st.write("Price:")
-    st.write(gapTickYF.info['regularMarketPrice'])
+    gapTickPrice = gapTickYF.info['regularMarketPrice']
+    st.write(gapTickPrice)
     st.write("Avg Volume 10 Day:")
     st.write(gapTickYF.info['averageDailyVolume10Day'])
     hist = gapTickYF.history(start=five_years_ago)
@@ -76,8 +77,13 @@ def main():
     #webull hard to borrow fee cost
     st.subheader("Trading on Webull")
     htbRate = st.text_input(label='Enter Hard to Borrow Rate')
-    st.write(htbRate)
-
+    hbtPercent = htbRate/100
+    amtSpent = st.text_input(label='Enter Amount Spent')
+    shares = round(amtSpent/gapTickPrice)
+    roundedPrice = round(gapTickPrice*1.02)
+    htbFee = roundedPrice * shares * htbPercent / 360
+    st.write("The Fee:")
+    st.write(htbFee)
 
     # checkbox to display list of institutional shareholders for searched ticker
     long_term = st.sidebar.checkbox("...is a good buy")
