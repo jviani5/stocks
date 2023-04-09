@@ -75,12 +75,8 @@ def main():
     st.write(gapTickYF.info['fiftyTwoWeekHighChange'])
     #webull hard to borrow fee cost
     st.subheader("Trading on Webull")
-    with st.form(key='my_form'):
-        htbRate = st.text_input(label='Enter Hard to Borrow Rate')
-        submit_button = st.form_submit_button(label='Submit')
-    with st.form(key='my_form'):
-        amtSpent = st.text_input(label='Enter Amount Spent')
-        submit_button = st.form_submit_button(label='Submit')
+    htbRate = st.text_unpt(label='Enter Hard to Borrow Rate')
+    print(htbRate)
 
 
     # checkbox to display list of institutional shareholders for searched ticker
