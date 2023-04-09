@@ -71,7 +71,7 @@ def main():
     st.write(gapPrice)
     st.write("Info:")
     st.write(gapTickYF.info)
-    pct_change = (current_price - gapTickLongTerm.iloc[0]['Close']) / gapTickLongTerm.iloc[0]['Close'] * 100
+    pct_change = (gapPrice - gapTickLongTerm.iloc[0]['Close']) / gapTickLongTerm.iloc[0]['Close'] * 100
     st.write("5 Year % Change: " + pct_change)
 
 
