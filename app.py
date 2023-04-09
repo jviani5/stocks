@@ -72,7 +72,8 @@ def main():
     st.write("Info:")
     st.write(gapTickYF.info)
     pct_change = (gapPrice - gapTickLongTerm.iloc[0]['Close']) / gapTickLongTerm.iloc[0]['Close'] * 100
-    st.write("5 Year % Change: " + pct_change)
+    st.write("5 Year % Change:")
+    st.write(pct_change)
 
 
     # checkbox to display list of institutional shareholders for searched ticker
