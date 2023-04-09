@@ -70,6 +70,8 @@ def main():
     gapAvgVol = gapTickData.info['Avg. Volume']
     st.write("Price: $" + gapPrice)
     st.write("Avg Volume: $" + gapAvgVol)
+    hist = gapTickYF.history(start=five_yr_ago)
+    pct_change = (current_price - hist.iloc[0]['Close']) / hist.iloc[0]['Close'] * 100
 
 
 
